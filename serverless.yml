@@ -23,6 +23,9 @@ frameworkVersion: '2'
 provider:
   name: aws
   runtime: nodejs12.x
+  
+  environment: 
+      token: ${opt:token}
 
 # you can overwrite defaults here
 #  stage: dev
@@ -56,14 +59,15 @@ provider:
 #  exclude:
 #    - exclude-me.js
 #    - exclude-me-dir/**
-
-functions:
-  hello:
-    handler: handler.hello
+    
+functions:      
+  viewProfile:
+    handler: src/handlers/profileView.handleViewProfile
     events:
         - http:
-            path: hello
+            path: profile/view
             method: get
+            cors: true
             
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

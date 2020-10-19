@@ -31,23 +31,15 @@ const getUsers = async () => {
 
 const getProfile = async (user) => {
   // todo: consider caching labels from team.profile.get
-  let profile = await web.users.profile.get({
+  let data = await web.users.profile.get({
     user: user,
     include_labels: false
   });
   
-  return profile;
+  return data.profile;
 }
 
-module.exports.hello = async event => {
-  const users = await getUsers();
-  const profile = await getProfile(users[0].id);
-  
-  return {
-    statusCode: 200,
-    body: JSON.stringify(profile,
-      null,
-      2
-    ),
-  };
-};
+module.exports = {
+  getUsers,
+  getProfile
+}
