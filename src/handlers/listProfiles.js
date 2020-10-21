@@ -1,9 +1,8 @@
 'use strict';
+const { getUsers } = require('../slack');
 
-const { getProfile } = require('../slack');
-
-module.exports.handleViewProfile = async event => {
-  const profile = await getProfile(event.pathParameters.id);
+module.exports.handleListProfiles = async event => {
+  const users = await getUsers();
   
   return {
     headers: {
@@ -11,7 +10,7 @@ module.exports.handleViewProfile = async event => {
       'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
     },
     statusCode: 200,
-    body: JSON.stringify(profile,
+    body: JSON.stringify(users,
       null,
       2
     ),

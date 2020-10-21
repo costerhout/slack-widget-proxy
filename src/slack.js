@@ -22,8 +22,7 @@ const getUsers = async () => {
     await records.push.apply(records, response.members);
     cursor = response.response_metadata.next_cursor;
     
-    // keepGoing = response.ok && cursor !== '';
-    keepGoing = false;
+    keepGoing = response.ok && cursor !== '';
   }
 
   return records;
