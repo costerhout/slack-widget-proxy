@@ -10,9 +10,6 @@ module.exports.handleListProfiles = async event => {
       'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
     },
     statusCode: 200,
-    body: JSON.stringify(users,
-      null,
-      2
-    ),
+    body: JSON.stringify(users),
   };
 };
