@@ -8,6 +8,7 @@ provider:
   
   environment: 
       token: ${opt:token}
+      bucket: ${opt:bucket}
     
 functions:      
   viewProfile:
