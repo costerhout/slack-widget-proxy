@@ -9,7 +9,28 @@ provider:
   environment: 
       token: ${opt:token}
       bucket: ${opt:bucket}
-    
+      region: ${opt:region}
+  
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 's3:PutObject'
+      Resource:
+        Fn::Join:
+          - ''
+          - - 'arn:aws:s3:::'
+            - ${opt:bucket}
+            - '/*'
+    - Effect: 'Allow'
+      Action:
+        - 's3:GetObject'
+      Resource:
+        Fn::Join:
+          - ''
+          - - 'arn:aws:s3:::'
+            - ${opt:bucket}
+            - '/*'
+
 functions:      
   viewProfile:
     handler: src/handlers/profileView.handleViewProfile

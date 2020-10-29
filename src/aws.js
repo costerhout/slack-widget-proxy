@@ -4,22 +4,23 @@
  * @Email:  ctosterhout@alaska.edu
  * @Project: ernie
  * @Last modified by:   ctosterhout
- * @Last modified time: 2020-10-28T19:53:57-08:00
+ * @Last modified time: 2020-10-28T22:37:11-08:00
  * @License: Released under MIT License. Copyright 2020 University of Alaska Southeast.  For more details, see https://opensource.org/licenses/MIT
  */
 
 // Patterns in this module adapted from the developer's guide:
 // https://docs.aws.amazon.com/lambda/latest/dg/with-s3-example-deployment-pkg.html
 
-const AWS = require('aws-sdk');
 const dayjs = require('dayjs');
-const s3 = new AWS.S3();
 const bucketId = process.env.bucket;
+const region = process.env.region;
 const maxAge = 24; // Max age of the cache, in hours
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3({ region });
 
 // loadObjectCache — get an object from the bucket with the given key
 const loadObjectCache = async (srcKey) => {
-  const expirationDateTimestamp = dayjs(new Date()).subtract(maxAge, 'hours').valueOf();
+  const expirationDateTimestamp = dayjs(new Date()).subtract(maxAge, 'hours').toDate();
   const params = {
     Bucket: bucketId,
     Key: srcKey,
