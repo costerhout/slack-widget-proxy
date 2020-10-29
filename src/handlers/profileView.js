@@ -1,3 +1,13 @@
+/**
+ * @Author: Colin Osterhout <ctosterhout>
+ * @Date:   2020-10-18T13:55:18-08:00
+ * @Email:  colixx@gmail.com
+ * @Project: slack-widget-proxy
+ * @Last modified by:   ctosterhout
+ * @Last modified time: 2020-10-28T23:48:49-08:00
+ * @License: MIT
+ */
+
 'use strict';
 
 const { getProfile } = require('../slack');

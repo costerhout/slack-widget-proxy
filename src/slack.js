@@ -1,3 +1,13 @@
+/**
+ * @Author: Colin Osterhout <ctosterhout>
+ * @Date:   2020-10-18T15:26:08-08:00
+ * @Email:  colixx@gmail.com
+ * @Project: slack-widget-proxy
+ * @Last modified by:   ctosterhout
+ * @Last modified time: 2020-10-28T23:48:44-08:00
+ * @License: MIT
+ */
+
 'use strict';
 
 const {

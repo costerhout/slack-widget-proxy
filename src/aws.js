@@ -1,11 +1,11 @@
 /**
  * @Author: Colin Osterhout <ctosterhout>
  * @Date:   2020-10-21T18:11:05-08:00
- * @Email:  ctosterhout@alaska.edu
- * @Project: ernie
+ * @Email:  colixx@gmail.com
+ * @Project: slack-widget-proxy
  * @Last modified by:   ctosterhout
- * @Last modified time: 2020-10-28T22:37:11-08:00
- * @License: Released under MIT License. Copyright 2020 University of Alaska Southeast.  For more details, see https://opensource.org/licenses/MIT
+ * @Last modified time: 2020-10-28T23:48:37-08:00
+ * @License: MIT
  */
 
 // Patterns in this module adapted from the developer's guide:
