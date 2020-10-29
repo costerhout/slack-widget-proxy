@@ -15,24 +15,40 @@ const keyAllUsers = '__all_users';
 // Grab list of all the users
 const getUsers = async () => {  
   const loadFreshUserList = async () => {
-    const limit = 100;  // this is arbitrary — the documentation was not specific.
+    const isUser = (member) => ('id' in member) && !(member.is_bot || member.is_app_user)
+    const limit = 200;  // this is arbitrary — the documentation was not specific.
     let records = [];
     let keepGoing = true;
     let cursor = undefined;
 
     while (keepGoing) {
-      let response = await web.users.list({
-        limit: limit,
-        cursor: cursor
-      });
-      await records.push.apply(records, response.members);
-      cursor = response.response_metadata.next_cursor;
-      
-      keepGoing = response.ok && cursor !== '';
+      try {
+        let response = await web.users.list({
+          limit: limit,
+          cursor: cursor
+        });
+        
+        if (response.ok) {
+          // push only real users, neither bots nor apps
+          records.push.apply(records, response.members.filter(isUser));
+          
+          // set up the fetch cursor for next time.
+          // This is an area that could be optimized to allow for server-side pagination
+          cursor = response.response_metadata.next_cursor;
+          keepGoing = response.ok && cursor !== ''; 
+        } else if ('error' in response) {
+          throw new Error(response.error)
+        } else {
+          throw new Error('Unable to retrieve users list')
+        }      
+      } catch (error) {
+        console.error(error);
+      } 
     }
     
     // Store in the cache for next time
-    storeObjectCache(keyAllUsers, records);
+    await storeObjectCache(keyAllUsers, records);  
+    
     return records;
   }
   
@@ -57,16 +73,22 @@ const getProfile = async (user) => {
         include_labels: false
       });
       
-      // Store in the cache for next time
-      storeObjectCache(user, data.profile);
+      if (data.ok) {
+        // Store in the cache for next time
+        storeObjectCache(user, data.profile);  
+      } else if ('error' in data) {
+        throw new Error(data.error)
+      } else {
+        throw new Error('Unable to retrieve profile')
+      }
       
-      return data.profile;  
+      return data.profile;
     } catch (err) {
       // Store this away in the logs for debug and return undefined gracefully
       console.log(err)
       
       return undefined;
-    }
+    }    
   }
   
   // If we were successful with loading the list from the cache, return that.

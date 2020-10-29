@@ -4,7 +4,7 @@
  * @Email:  ctosterhout@alaska.edu
  * @Project: ernie
  * @Last modified by:   ctosterhout
- * @Last modified time: 2020-10-21T19:40:18-08:00
+ * @Last modified time: 2020-10-28T19:53:57-08:00
  * @License: Released under MIT License. Copyright 2020 University of Alaska Southeast.  For more details, see https://opensource.org/licenses/MIT
  */
 
@@ -15,7 +15,7 @@ const AWS = require('aws-sdk');
 const dayjs = require('dayjs');
 const s3 = new AWS.S3();
 const bucketId = process.env.bucket;
-const maxAge = 1440; // Max age of the cache, in hours
+const maxAge = 24; // Max age of the cache, in hours
 
 // loadObjectCache — get an object from the bucket with the given key
 const loadObjectCache = async (srcKey) => {
@@ -31,11 +31,11 @@ const loadObjectCache = async (srcKey) => {
     
     // The data is returned as a node.js buffer — convert that to string and parse it.
     return JSON.parse(obj.Body.toString());
-  }
-  catch (err) {
+  } catch (error) {
+    console.log(error);
     // Gracefully catch an error and return undefined
     return undefined;
-  }  
+  } 
 }
 
 // storeObjectCache — put an object (data) in the bucket with the given key
@@ -48,7 +48,12 @@ const storeObjectCache = async (key, data) => {
     ContentType: "application/json"
   };
   
-  await s3.putObject(params).promise();
+  try {
+    await s3.putObject(params).promise();  
+  } catch (error) {
+    console.log(error);
+  }
+  
 }
 
 module.exports = {

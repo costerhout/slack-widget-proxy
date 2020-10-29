@@ -1,6 +1,7 @@
 'use strict';
 
 const { getProfile } = require('../slack');
+const maxAge = 3600;
 
 module.exports.handleViewProfile = async event => {
   const profile = await getProfile(event.pathParameters.id);
@@ -19,6 +20,7 @@ module.exports.handleViewProfile = async event => {
       headers: {
         'Access-Control-Allow-Origin': '*', // Required for CORS support to work
         'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
+        'Cache-Control': `public, maxage=${maxAge}`
       },
       statusCode: 404,
       body: JSON.stringify({
